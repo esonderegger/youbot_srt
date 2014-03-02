@@ -9,14 +9,16 @@
     </group>
 
     <group if="$(arg use_nav)">
-        <include file="$(find youbot_navigation_local)/launch/move_base_local.launch" />
-        
-        <!-- <include file="$(find youbot_navigation_global)/launch/move_base_global.launch" /> -->
-        <!-- <include file="$(find youbot_navigation_global)/launch/amcl.launch" /> -->
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find youbot_srt)/map/basement_map.yaml"/>
 
-        <arg name="scan" value="base_scan"/>
+        <!-- <include file="$(find youbot_navigation_local)/launch/move_base_local.launch" /> -->
+        
+        <include file="$(find youbot_navigation_global)/launch/amcl.launch" />
+        <include file="$(find youbot_navigation_global)/launch/move_base_global.launch" />
+
+<!--         <arg name="scan" value="base_scan"/>
         <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping"
-            args="scan:=$(arg scan) _xmin:=-10 _ymin:=-10 _xmax:=10 _ymax:=10" />
+            args="scan:=$(arg scan) _xmin:=-10 _ymin:=-10 _xmax:=10 _ymax:=10" /> -->
     </group>
     
     <group if="$(arg use_octomap)">
@@ -24,7 +26,7 @@
     </group>
 
     <group if="$(arg use_rviz)">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find youbot_srt)/launch/srt_full.rviz" />
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find youbot_srt)/launch/srt_simple.rviz" />
     </group>
 
 </launch>
