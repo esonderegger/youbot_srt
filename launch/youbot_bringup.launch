@@ -18,14 +18,15 @@
 
     <group if="$(arg use_hokuyo)">
         <node type="hokuyo_node" pkg="hokuyo_node" name="hokuyo_node">  
-            <param name="min_ang" type="double" value="-1.5" />
-            <param name="max_ang" type="double" value="1.5" />
+            <param name="min_ang" type="double" value="-1.4" />
+            <param name="max_ang" type="double" value="1.4" />
             <remap from="/scan" to="/base_scan"/>
             <param name="port" type="string" value="/dev/sensors/hokuyo"/>
+            <param name="frame_id" type="string" value="/base_laser_front_link"/>
         </node>
 
-        <node pkg="tf" type="static_transform_publisher" name="front_hokuyo_frame" 
-        args="0 0 0 0 0 0 /base_laser_front_link /laser 1" />
+<!--         <node pkg="tf" type="static_transform_publisher" name="front_hokuyo_frame" 
+        args="0 0 0 0 0 0 /base_laser_front_link /laser 1" /> -->
     </group>
 
 </launch>
