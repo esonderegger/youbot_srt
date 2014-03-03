@@ -103,7 +103,6 @@ def createTwist(xVel, yVel, angVel):
     return twist
 
 
-
 def moveBase(xDist, yDist, theta):
     timeRequired = 0.1
     if abs(xDist / 0.05) > timeRequired:
