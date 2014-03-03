@@ -7,10 +7,6 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import Point
 from geometry_msgs.msg import Quaternion
-from brics_actuator.msg import JointPositions
-from brics_actuator.msg import JointVelocities
-from brics_actuator.msg import JointValue
-from brics_actuator.msg import Poison
 
 roslib.load_manifest('youbot_srt')
 
@@ -21,7 +17,7 @@ toleranceVal = 0.03
 gripperOpenMax = 0.0110
 gripperCloseDumpster = 0.003
 
-homeAngles = [0.05,0.05,-0.05,0.05,0.05]
+homeAngles = [0.05, 0.05, -0.05, 0.05, 0.05]
 lookForward = [3.0, 0.6, -1.7, 2.9, 2.95]
 
 dumpsterPreApproach = [2.9, 2.4, -4.1, 0.05, 3.0]
@@ -39,11 +35,11 @@ trashCanHigh = [1.1, 1.1, -1.6, 2.2, 2.9]
 trashCanPreDump = [0.2, 0.7, -1.5, 2.7, 2.9]
 trashCanDump = [0.05, 0.7, -1.3, 2.7, 5.3]
 
-armStarboardUp = [1.4,2.7,-3.0,1.0,3.0]
-armStarboardDown = [1.4,0.55,-3.7,1.3,3.0]
-armPortUp = [4.3,0.9,-4.0,1.4,3.0]
-armPortDown = [4.3,0.6,-3.9,1.4,3.0]
-armUp = [3.0,1.1,-2.5,1.6,3.0]
+armStarboardUp = [1.4, 2.7, -3.0, 1.0, 3.0]
+armStarboardDown = [1.4, 0.55, -3.7, 1.3, 3.0]
+armPortUp = [4.3, 0.9, -4.0, 1.4, 3.0]
+armPortDown = [4.3, 0.6, -3.9, 1.4, 3.0]
+armUp = [3.0, 1.1, -2.5, 1.6, 3.0]
 
 
 yb_arm = MoveGroupCommander("yb_arm")
@@ -98,10 +94,10 @@ def moveArmToAngles(moveGroup, anglesList):
 
 def createTwist(xVel, yVel, angVel):
     twist = Twist()
-    twist.linear.x = xVel 
+    twist.linear.x = xVel
     twist.linear.y = yVel
     twist.linear.z = 0
-    twist.angular.x = 0 
+    twist.angular.x = 0
     twist.angular.y = 0
     twist.angular.z = angVel
     return twist
@@ -246,9 +242,14 @@ def janitron():
     moveBase(0.0, 0.75, 0.0)
 
 
-if __name__ == '__main__':
+def startRosNode():
     rospy.init_node('srt_moveit')
+
+
+if __name__ == '__main__':
+    startRosNode()
     # trashCalibrate()
     # moveBase(0.0, 0.7, -0.9)
     # moveBase(0.0, -0.7, 0.9)
-    emptyTrashCan()
+    # emptyTrashCan()
+    goToSleep()
