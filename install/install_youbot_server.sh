@@ -12,4 +12,5 @@ git clone -b hydro-devel https://github.com/ros-planning/moveit_commander.git
 git clone https://github.com/esonderegger/youbot_description.git
 git clone https://github.com/esonderegger/youbot_common.git
 git clone https://github.com/esonderegger/youbot_driver.git
+git clone https://github.com/esonderegger/youbot_moveit_config.git
 git clone https://github.com/esonderegger/youbot_navigation.git
