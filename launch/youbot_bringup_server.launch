@@ -3,26 +3,45 @@
     <arg name="use_nav" default="true" />
     <arg name="use_octomap" default="true" />
     <arg name="use_rviz" default="true" />
+    <arg name="nav_map" default="false" />
+    <arg name="nav_local" default="false" />
+    <arg name="nav_global" default="false" />
+    <arg name="nav_slam" default="false" />
 
     <group if="$(arg use_moveit)">
         <include file="$(find youbot_moveit_config)/launch/move_group.launch"/>
     </group>
 
     <group if="$(arg use_nav)">
-        <node name="map_server" pkg="map_server" type="map_server" args="$(find youbot_srt)/map/basement_map.yaml"/>
-
-        <!-- <include file="$(find youbot_navigation_local)/launch/move_base_local.launch" /> -->
-        
-        <include file="$(find youbot_navigation_global)/launch/amcl.launch" />
-        <include file="$(find youbot_navigation_global)/launch/move_base_global.launch" />
-
-<!--         <arg name="scan" value="base_scan"/>
-        <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping"
-            args="scan:=$(arg scan) _xmin:=-10 _ymin:=-10 _xmax:=10 _ymax:=10" /> -->
+        <group if="$(arg nav_map)">
+            <node name="map_server" pkg="map_server" type="map_server" args="$(find youbot_srt)/map/basement_divided.yaml"/>
+            <include file="$(find youbot_navigation_global)/launch/amcl.launch" />
+        </group>
+        <group if="$(arg nav_local)">
+            <include file="$(find youbot_navigation_local)/launch/move_base_local.launch" />
+        </group>
+        <group if="$(arg nav_global)">
+            <include file="$(find youbot_navigation_global)/launch/move_base_global.launch" />
+        </group>
+        <group if="$(arg nav_slam)">
+            <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" args="scan:=base_scan _xmin:=-10 _ymin:=-10 _xmax:=10 _ymax:=10" />
+        </group>
     </group>
     
     <group if="$(arg use_octomap)">
-        <include file="$(find octomap_server)/launch/octomap_mapping.launch"/>
+        <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+        <param name="resolution" value="0.05" />
+
+        <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+        <param name="frame_id" type="string" value="odom" />
+
+        <!-- maximum range to integrate (speedup!) -->
+        <param name="sensor_model/max_range" value="5.0" />
+
+        <!-- data source to integrate (PointCloud2) -->
+        <remap from="cloud_in" to="/xtion/depth/points" />
+
+    </node>
     </group>
 
     <group if="$(arg use_rviz)">
